@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      name: tcp-80
+      targetPort: 8080
+    - protocol: TCP
+      port: 443
+      name: tcp-443
+      targetPort: 443
+  externalIPs:
+    - 192.168.2.37

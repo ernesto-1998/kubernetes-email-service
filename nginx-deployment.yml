@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+        - name: tls-secret
+          secret:
+            secretName: tls-secret
+      containers:
+        - name: nginx
+          image: ernesto06/nginx-email:6.0
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          volumeMounts:
+            - name: tls-secret
+              mountPath: /etc/nginx/ssl
+              readOnly: true
+              #args:
+                  # - "--cert-file=/etc/nginx/ssl/tls.crt"
+                  #- "--key-file=/etc/nginx/ssl/tls.key" 			
